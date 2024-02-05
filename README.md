@@ -17,8 +17,13 @@
    - CMD : `source sldvt_env/bin/activate`
 
 4. Dependency Installation
-   - CMD : `cd SLDVT && pip3 -r requirements.txt`
+   - CMD : `cd SLDVT && pip3 install -r requirements.txt`
 
 ### Update Dependencies
 
 ```pip freeze > requirements.txt```
+
+
+### Troubleshoot 
+* Python Version == 3.11.2 (latest version will not support mediapipe)
+* command is only available for mac with linux bash
