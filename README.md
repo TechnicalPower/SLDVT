@@ -18,3 +18,7 @@
 
 4. Dependency Installation
    - CMD : `cd SLDVT && pip3 -r requirements.txt`
+
+### Update Dependencies
+
+'''pip freeze > requirements.txt'''
