@@ -17,4 +17,4 @@
    - CMD : `source sldvt_env/bin/activate`
 
 4. Dependency Installation
-   - CMD : `pip3 -r requirements.txt`
+   - CMD : `cd SLDVT && pip3 -r requirements.txt`
