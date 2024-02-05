@@ -21,4 +21,4 @@
 
 ### Update Dependencies
 
-`pip freeze > requirements.txt`
+```pip freeze > requirements.txt```
