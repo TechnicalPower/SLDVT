@@ -5,6 +5,11 @@ from matplotlib import pyplot
 import time
 import mediapipe
 
+#holistic model for image detection taking landmarks
+mp_holistic = mediapipe.solutions.holistic
+
+#image drawing on the frame model
+mp_drawing = mediapipe.solutions.drawing_utils
 def main():
     # VideoCapture with input 0 will call the camera to get motion captured
     # Reference: https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#ae82ac8efcff2c5c96be47c060754a518
