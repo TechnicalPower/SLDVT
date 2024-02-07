@@ -3,7 +3,7 @@ import constants
 import numpy as np
 
 # !! DATA path to store the folder to detect
-DATA_PATH = os.path.join('dataset')
+DATA_PATH = os.path.join(constants.DATA_PATH_STRING)
 
 actions = np.array(constants.ACTION_LIST)
 

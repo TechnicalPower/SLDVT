@@ -8,6 +8,7 @@ ACTION_LIST = [
 ] ## Following array store the list of action to detect
 NP_SEQUENCE = 30 ## Number of folders on the action
 NP_LENGTH = 30 ## Number of frames on single sequence (folder)
+DATA_PATH_STRING = 'dataset' ## DATA PATH
 
 # used by mcapture.py --
 MIN_DETECTION_CONFIDENCE = 0.5 ## confidence rate - hyperparameter for media pipe for detection inital action
