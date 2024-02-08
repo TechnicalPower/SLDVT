@@ -27,3 +27,5 @@
 ### Troubleshoot 
 * Python Version == 3.11.2 (latest version will not support mediapipe)
 * command is only available for mac with linux bash
+* requirements.txt 로 다운하기 어려운 경우 문서에 나와있는 디펜던시표 따라 인스톨하기
+  
