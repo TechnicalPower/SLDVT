@@ -20,3 +20,7 @@ SIZE_RIGHT_HAND_LANDMARK = 63 ## constants of len >> right_hand_landmarks
 NAME_FRAME = 'Motion Capture' ## name of frame 
 KILL_PROCESS_KEY_INPUT = 'q' ## kill process key !!
 
+
+# used by voice_translate.py --
+INPUT_TEST_DIRECTORY = "../test/input/input.txt"
+
