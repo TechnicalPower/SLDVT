@@ -66,31 +66,59 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
+Install the virtual environment system
+* pip3
   ```sh
-  npm install npm@latest -g
+  pip3 install venv
   ```
 
-### Installation
+### Installation & Service Set Up
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone [https://github.com/your_username_/Project-Name.git](https://github.com/HoyeonS/SLDVT.git)
    ```
-3. Install NPM packages
+3. Activate virtual environment
    ```sh
-   npm install
+   source ~/path/to/env/bin/activate
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+4. Install dependencies
+   ```sh
+   cd /SLDVT && pip3 install -r requirements.txt
    ```
+5. Run the python file
+  ```sh
+  python3 mcapture.py
+  ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Troubleshoot guide
+
+#### Window Version activating virtual environment
+
+  ```sh
+  ~ .\path\to\env\Scripts\activate.bat
+  ```
+  OR
+  ```sh
+  ~ .\path\to\env\Scripts\activate.ps
+  ```
+
+#### Error on Installation Mediapipe
+
+Double check python version
+```sh
+python3 --v
+```
+
+#### Error on Installing from requirements.txt
+
+--> Install by dependency
+
+  
+
 
 ## Contact
 
