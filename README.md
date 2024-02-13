@@ -11,6 +11,7 @@
          <ul>
             <li><a href="#high-level-diagram">High Level Diagram</a></li>
             <li><a href="#low-level-diagram">Low Level Diagram</a></li>
+           <li><a href="#workflow">Workflow</a></li>
          </ul>
       </ul>
     </li>
@@ -35,13 +36,27 @@ There are many great README templates available on GitHub; however, I didn't fin
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+| Dependency    | Version       | Notes |
+| ------------- | ------------- | ----- |
+| TensorFlow  | 2.15.0 | currently in main |
+| opencv-python  | 4.9.0.80  | currently in main |
+| mediatype  | 0.10.9  | currently in main |
+| sklearn  | 1.4.0  | currently in main |
+| matplotlib  | 3.8.2  | currently in main |
+| playsound  | latest  | currently in main |
+| gtts  | latest  | currently in main |
+| tempFile  | TBD  | only in voice-feature branch |
 
 ### Architecture
 
 #### High Level Diagram
+<img src="https://github.com/HoyeonS/SLDVT/blob/hoyeon.detect-feature/HLD.png"></img>
 
 #### Low Level Diagram
+
+#### Workflow 
+<img src="https://github.com/HoyeonS/SLDVT/blob/hoyeon.detect-feature/Workflow.jpeg"></img>
 
 
 ## Getting Started
