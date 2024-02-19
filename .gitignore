@@ -7,6 +7,10 @@ __pycache__/
 # C extensions
 *.so
 
+# directory for dataset as too large data
+./src/dataset/*
+./src/Logs/*
+
 # Distribution / packaging
 .Python
 build/
