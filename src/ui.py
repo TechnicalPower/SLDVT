@@ -1,5 +1,6 @@
 import pyglet
 from pyglet.window import mouse
+import mcapture
 
 
 window = pyglet.window.Window( resizable=True, style=pyglet.window.Window.WINDOW_STYLE_DEFAULT)
@@ -68,6 +69,12 @@ def on_mouse_press(x, y, quit, modifiers):
                 button_y <= y <= button_y + button_height):
             pyglet.app.exit()
 
+@window.event
+def on_mouse_press(x, y, start, modifiers):
+    if start == mouse.LEFT:
+        if (button_x <= x <= button_x + button_width and
+                button_y <= y <= button_y + button_height):
+            mcapture.main()
     
 
 pyglet.app.run()
