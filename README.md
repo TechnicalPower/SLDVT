@@ -19,7 +19,16 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#installation-and-service-set-up">Installation</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#reasons-for-adopting-docker">Reasons for Adopting Docker</a>
+      <ul>
+        <li><a href="#configuring-ci-cd-with-github-actions">Configuring CI/CD with Github Actions</a></li>
+        <ul>
+          <li><a href="#pipeline-components">Pipeline Components</a></li>
+        </ul>
       </ul>
     </li>
     <li><a href="#contact">Contact</a></li>
@@ -28,13 +37,27 @@
 
 ## About The Project
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+Our project aims to bridge communication gaps between the deaf and the hearing community by developing a system that translates sign language gestures into audible speech using deep learning techniques, particularly Long Short-Term Memory (LSTM) neural networks for action recognition.
+
+The system utilizes a camera or a sensor to capture real-time sign language gestures performed by the user. These gestures are then processed and analyzed by the LSTM-based action recognition model, which is trained to recognize various sign language gestures and movements. LSTM networks are chosen for their ability to effectively model temporal dependencies in sequential data, making them well-suited for recognizing the dynamic nature of sign language.
+
+Once the gestures are recognized, the corresponding linguistic information is extracted and synthesized into spoken language using text-to-speech (TTS) technology. This synthesized speech is then outputted through speakers or headphones, enabling individuals who are deaf or hard of hearing to effectively communicate with those who do not understand sign language.
+
+### Key features of our project include:
+
+1. Real-time sign language recognition: The system operates in real-time, allowing for seamless communication without delays.
+2. Multi-gesture recognition: The LSTM model is trained to recognize a wide range of sign language gestures, including both static and dynamic movements.
+3. Accuracy and robustness: The model is trained on diverse datasets to ensure accurate recognition of gestures across different environments and lighting conditions.
+4. Accessibility: The system is designed to be user-friendly and accessible to individuals with varying levels of proficiency in sign language.
+
+
+Our project aims to empower individuals who are deaf or hard of hearing by providing them with a reliable and efficient means of communication in various social and professional settings. By leveraging the capabilities of deep learning and LSTM networks, we strive to break down communication barriers and promote inclusivity and accessibility for all.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Dependency
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+Dependency lists for the project 
 
 
 | Dependency    | Version       | Notes |
@@ -61,8 +84,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+The following steps should be applied in the local computer for the development process.
 
 ### Prerequisites
 
@@ -72,7 +94,7 @@ Install the virtual environment system
   pip3 install venv
   ```
 
-### Installation & Service Set Up
+### Installation and Service Set Up
 
 
 1. Clone the repo
@@ -117,12 +139,48 @@ python3 --v
 
 --> Install by dependency
 
+## Reasons for Adopting Docker
+
+1. Consistency and Portability: Docker ensures that your application runs the same way in every environment, mitigating the "it works on my machine" problem. Containers provide a consistent environment for your application from development through to production, regardless of where it runs.
+
+2. Rapid Deployment and Scalability: Containers start up quickly and consume fewer resources than traditional virtual machines, facilitating faster deployment times and ease of scalability.
+
+3. Isolated Environments: Each Docker container runs independently, allowing you to run multiple applications in isolation from each other on the same host. This isolation helps manage dependencies and conflicts efficiently.
+
+4. Version Control and Easy Rollbacks: Docker images are version-controlled, making it easy to roll back to earlier versions of your application if needed. This enhances stability and ease of management.
+
+
+
+## Configuring CI-CD with GitHub Actions
+
+Using GitHub Actions, we can automate our CI/CD pipeline, ensuring that code changes are automatically built, tested, and deployed.
+
+### Pipeline Components:
+
+1. Trigger on Push or Pull Request: The CI/CD pipeline is triggered by code pushes to the main branch or the creation of pull requests, ensuring that every change is automatically tested.
+
+2. Automated Testing: Upon trigger, unit and integration tests run automatically, verifying that new changes do not break existing functionalities.
+
+3. Docker Image Build and Registry Push: Successful tests lead to the building of a new Docker image incorporating the changes, which is then pushed to a Docker Hub
+
+4. Deployment: Following the push to the registry, the new Docker image is deployed to the production environment. 
+
   
 
 
 ## Contact
+<ul>
+  <li>
+Hoyeon Sohn    
+  </li>
+  <li>
+  Juyeong Yoon
+  </li>
+  <li>
+Seongjin Park    
+  </li>
+</ul>
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
