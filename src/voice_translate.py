@@ -1,7 +1,7 @@
 import constants
 from gtts import gTTS
 from playsound import playsound
-from tempfile import TemporaryFile
+from tempfile import NamedTemporaryFile
 
 
 
@@ -19,10 +19,14 @@ def string_to_word(str):
 # Important!! translating the string words into voice with speaker output
 def voice_output(out):
     #TODO: Implementation with GTTS 
+    f = NamedTemporaryFile(suffix=".mp3")
+    print(f.name)
     for word in out:
         tts = gTTS(word)
-        tts.save("buffer.mp3")
-        playsound("buffer.mp3")
+        tts.save(f.name) # required to check for memory and time effciency
+        playsound(f.name)
+    f.close()
+    
 
 def main():
     # Debug purpose - starting the python file with satisfied dependencies
