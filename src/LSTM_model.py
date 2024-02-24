@@ -6,12 +6,7 @@ from keras.layers import LSTM, Dense
 from keras.callbacks import TensorBoard
 import constants
 
-
-def learning_model(X_train, y_train, res):
-    log_dir = os.path.join('Logs')
-
-    tb_callback = TensorBoard(log_dir)
-
+def model_build():
     model = Sequential()
 
     model.add(LSTM(64, return_sequences=True, activation='relu', input_shape=(30,1662)))
@@ -19,8 +14,17 @@ def learning_model(X_train, y_train, res):
     model.add(LSTM(64, return_sequences=False, activation='relu'))
     model.add(Dense(64, activation='relu'))
     model.add(Dense(64, activation='relu'))
-
     model.add(Dense(len(constants.ACTION_LIST), activation='softmax'))
+    return model
+
+
+def learning_model(X_train, y_train, res):
+    log_dir = os.path.join('Logs')
+
+    tb_callback = TensorBoard(log_dir)
+
+    model = model_build()
+
 
     model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
 

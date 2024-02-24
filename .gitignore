@@ -8,8 +8,8 @@ __pycache__/
 *.so
 
 # directory for dataset as too large data
-./src/dataset/*
-./src/Logs/*
+src/dataset/*
+src/Logs/*
 
 # Distribution / packaging
 .Python
