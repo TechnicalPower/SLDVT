@@ -1,3 +1,4 @@
+import os
 import constants
 from gtts import gTTS
 from playsound import playsound
@@ -12,16 +13,15 @@ def read_dir(dir):
 
 #tranlating string sentence into words array
 def string_to_word(str):
-    print(str)
+    print(str)  
     return str.split()
-
 
 # Important!! translating the string words into voice with speaker output
 def voice_output(out):
     #TODO: Implementation with GTTS 
     for word in out:
         tts = gTTS(word)
-        tts.save("buffer.mp3")
+        tts.save("buffer.mp3")  
         playsound("buffer.mp3")
 
 def main():
