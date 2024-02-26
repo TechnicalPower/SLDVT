@@ -1,3 +1,4 @@
+import os
 import constants
 from gtts import gTTS
 from playsound import playsound
@@ -12,9 +13,8 @@ def read_dir(dir):
 
 #tranlating string sentence into words array
 def string_to_word(str):
-    print(str)
+    print(str)  
     return str.split()
-
 
 # Important!! translating the string words into voice with speaker output
 def voice_output(out):
@@ -27,6 +27,7 @@ def voice_output(out):
         playsound(f.name)
     f.close()
     
+
 
 def main():
     # Debug purpose - starting the python file with satisfied dependencies
