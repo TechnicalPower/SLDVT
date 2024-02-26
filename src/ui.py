@@ -1,6 +1,6 @@
 import pyglet
 from pyglet.window import mouse
-import mcapture
+import motion_capture
 
 #method that creates a button and a label inside it. 
 def create_button(label_text, y_offset, color=(0, 1, 0)):
