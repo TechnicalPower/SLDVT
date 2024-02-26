@@ -73,13 +73,12 @@ def on_draw():
 def on_mouse_press(x, y, button, modifiers):
     if button == mouse.LEFT:
         if start_button.x <= x <= start_button.x + button_width and start_button.y <= y <= start_button.y + button_height: #when start button is pressed
-            mcapture.main()     #run the main function
+            motion_capture.main_beta()     #run the main function
             print("Start button pressed")
         elif quit_button.x <= x <= quit_button.x + button_width and quit_button.y <= y <= quit_button.y + button_height:    #when quit button is pressed
             print("Quit button pressed")
             pyglet.app.exit()   #exit the program
 
-
-
+            
 #run the main function
 pyglet.app.run()

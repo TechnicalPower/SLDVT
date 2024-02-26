@@ -3,6 +3,7 @@ import numpy as np
 import os 
 from matplotlib import pyplot
 from keras.models import Sequential
+
 import time
 import mediapipe
 import constants
@@ -44,7 +45,7 @@ draw the landmark over the img on the fram
 
 Possibly will be removed once UX/UI is deployed
 """
-def draw_landmarks(image, results):
+def draw_landmarks(img, results):
     mp_drawing.draw_landmarks(img, results.face_landmarks, mp_holistic.FACEMESH_CONTOURS)
     mp_drawing.draw_landmarks(img, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS)
     mp_drawing.draw_landmarks(img, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
@@ -109,6 +110,7 @@ def main_for_learning():
 
                     if cv2.waitKey(10) & 0xFF == ord(constants.KILL_PROCESS_KEY_INPUT):
                         break
+        process.process()
 
         cap.release()
         cv2.destroyAllWindows()
@@ -141,7 +143,7 @@ def main():
     # VideoCapture with input 0 will call the camera to get motion captured
     # Reference: https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#ae82ac8efcff2c5c96be47c060754a518
     cap = cv2.VideoCapture(0)
-    model = process.process()
+    model = process.load()
 
     # Returns true if video capturing has been initialized already
     with mp_holistic.Holistic(min_detection_confidence=constants.MIN_DETECTION_CONFIDENCE,
