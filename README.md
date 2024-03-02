@@ -31,7 +31,7 @@
         </ul>
       </ul>
     </li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact">Contact Us</a></li>
   </ol>
 </details>
 
