@@ -8,6 +8,7 @@ import time
 import mediapipe
 import constants
 import process
+import voice_translate
 #holistic model for image detection taking landmarks
 mp_holistic = mediapipe.solutions.holistic
 
@@ -163,13 +164,17 @@ def main():
 
             if(len(sequence)  == 30):
                 res = model.predict(np.expand_dims(sequence, axis=0))[0]
-
                 if res[np.argmax(res)] > threshold: 
                     if len(sentence) > 0: 
                         if np.array(constants.ACTION_LIST)[np.argmax(res)] != sentence[-1]:
                             sentence.append(np.array(constants.ACTION_LIST)[np.argmax(res)])
+                            
+                            voice_translate.voice_output(sentence)
+                            print(np.array(constants.ACTION_LIST)[np.argmax(res)])
                     else:
                         sentence.append(np.array(constants.ACTION_LIST)[np.argmax(res)])
+                        voice_translate.voice_output(np.array(constants.ACTION_LIST)[np.argmax(res)])
+                        print(np.array(constants.ACTION_LIST)[np.argmax(res)])
 
                 if len(sentence) > 5: 
                     sentence = sentence[-5:]
@@ -181,7 +186,6 @@ def main():
             cv2.putText(img, ' '.join(sentence), (3,30), 
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             cv2.imshow(constants.NAME_FRAME, img)
-            print(results) # For Debug Purpose
             #break for frame closure with typing 'q'
             if cv2.waitKey(10) & 0xFF == ord(constants.KILL_PROCESS_KEY_INPUT):
                 break
