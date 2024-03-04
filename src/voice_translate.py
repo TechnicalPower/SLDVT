@@ -22,15 +22,13 @@ def voice_output(out):
     #TODO: Implementation with GTTS 
 
     pyglet.options['search_local_libs'] = True
- 
+    f = open("buffer.mp3", "w")
     for word in out:
-        with NamedTemporaryFile(suffix=".mp3", delete=False) as f:
-            #print(f.name)
-            tts = gTTS(word)
-            tts.save(f.name)
+        tts = gTTS(word)
+        tts.save(f.name)
         media = pyglet.media.load(f.name)
         media.play()
-        time.sleep(0.4)    
+        time.sleep(0.6)    
 
     
 
