@@ -18,7 +18,7 @@ def model_build():
     return model
 
 
-def learning_model(X_train, y_train, res):
+def learning_model(X_train, y_train):
     log_dir = os.path.join('Logs')
 
     tb_callback = TensorBoard(log_dir)

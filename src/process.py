@@ -7,8 +7,6 @@ import os
 import LSTM_model
 
 
-
-
 def process():
     label_map = {label: num for num, label in enumerate(np.array(constants.ACTION_LIST))}
 
