@@ -139,6 +139,7 @@ def main_beta():
 def main():
     sequence = []
     sentence = []
+    read = []
     threshold = 0.8
 
     # VideoCapture with input 0 will call the camera to get motion captured
@@ -169,12 +170,24 @@ def main():
                         if np.array(constants.ACTION_LIST)[np.argmax(res)] != sentence[-1]:
                             sentence.append(np.array(constants.ACTION_LIST)[np.argmax(res)])
                             
-                            voice_translate.voice_output(sentence)
-                            print(np.array(constants.ACTION_LIST)[np.argmax(res)])
+                            read.append(sentence[len(sentence)-1])
+                            print(read)
+                            voice_translate.voice_output(read)
+                            read.pop()
+
+                            #print(np.array(constants.ACTION_LIST)[np.argmax(res)])
                     else:
                         sentence.append(np.array(constants.ACTION_LIST)[np.argmax(res)])
-                        voice_translate.voice_output(np.array(constants.ACTION_LIST)[np.argmax(res)])
-                        print(np.array(constants.ACTION_LIST)[np.argmax(res)])
+
+
+                        read.append(sentence[len(sentence)-1])
+                        print(read)
+                        voice_translate.voice_output(read)
+                        read.pop()
+                
+
+                        #voice_translate.voice_output(np.array(constants.ACTION_LIST)[np.argmax(res)])
+                        #print(np.array(constants.ACTION_LIST)[np.argmax(res)])
 
                 if len(sentence) > 5: 
                     sentence = sentence[-5:]
