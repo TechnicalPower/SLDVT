@@ -23,12 +23,10 @@ def voice_output(out):
 
     pyglet.options['search_local_libs'] = True
     f = open("buffer.mp3", "w")
-    for word in out:
-        tts = gTTS(word)
-        tts.save(f.name)
-        media = pyglet.media.load(f.name)
-        media.play()
-        time.sleep(0.6)    
+    tts = gTTS(out)
+    tts.save(f.name)
+    media = pyglet.media.load(f.name)
+    media.play()  
 
     
 
