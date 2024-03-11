@@ -3,12 +3,10 @@ import numpy as np
 import os 
 from matplotlib import pyplot
 from keras.models import Sequential
-
 import time
 import mediapipe
 import constants
 import process
-import voice_translate
 #holistic model for image detection taking landmarks
 mp_holistic = mediapipe.solutions.holistic
 
@@ -46,7 +44,7 @@ draw the landmark over the img on the fram
 
 Possibly will be removed once UX/UI is deployed
 """
-def draw_landmarks(img, results):
+def draw_landmarks(image, results):
     mp_drawing.draw_landmarks(img, results.face_landmarks, mp_holistic.FACEMESH_CONTOURS)
     mp_drawing.draw_landmarks(img, results.pose_landmarks, mp_holistic.POSE_CONNECTIONS)
     mp_drawing.draw_landmarks(img, results.left_hand_landmarks, mp_holistic.HAND_CONNECTIONS)
@@ -111,29 +109,9 @@ def main_for_learning():
 
                     if cv2.waitKey(10) & 0xFF == ord(constants.KILL_PROCESS_KEY_INPUT):
                         break
-        process.process()
 
         cap.release()
         cv2.destroyAllWindows()
-def main_beta():
-        # VideoCapture with input 0 will call the camera to get motion captured
-    # Reference: https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#ae82ac8efcff2c5c96be47c060754a518
-    cap = cv2.VideoCapture(0)
-
-    # Returns true if video capturing has been initialized already
-    while cap.isOpened():
-        # Grabs, decodes and returns the next video frame
-        # ret :
-        # frame : 
-        ret, frame = cap.read()
-        cv2.imshow('Motion Capture', frame)
-
-        #break for frame closure
-        if cv2.waitKey(10) & 0xFF == ord('q'):
-            break
-    
-    cap.release()
-    cv2.destroyAllWindows()
 
 
 def main():
@@ -144,7 +122,7 @@ def main():
     # VideoCapture with input 0 will call the camera to get motion captured
     # Reference: https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#ae82ac8efcff2c5c96be47c060754a518
     cap = cv2.VideoCapture(0)
-    model = process.load()
+    model = process.process()
 
     # Returns true if video capturing has been initialized already
     with mp_holistic.Holistic(min_detection_confidence=constants.MIN_DETECTION_CONFIDENCE,
@@ -164,17 +142,13 @@ def main():
 
             if(len(sequence)  == 30):
                 res = model.predict(np.expand_dims(sequence, axis=0))[0]
+
                 if res[np.argmax(res)] > threshold: 
                     if len(sentence) > 0: 
                         if np.array(constants.ACTION_LIST)[np.argmax(res)] != sentence[-1]:
                             sentence.append(np.array(constants.ACTION_LIST)[np.argmax(res)])
-                            
-                            voice_translate.voice_output(sentence)
-                            print(np.array(constants.ACTION_LIST)[np.argmax(res)])
                     else:
                         sentence.append(np.array(constants.ACTION_LIST)[np.argmax(res)])
-                        voice_translate.voice_output(np.array(constants.ACTION_LIST)[np.argmax(res)])
-                        print(np.array(constants.ACTION_LIST)[np.argmax(res)])
 
                 if len(sentence) > 5: 
                     sentence = sentence[-5:]
@@ -186,6 +160,7 @@ def main():
             cv2.putText(img, ' '.join(sentence), (3,30), 
                         cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
             cv2.imshow(constants.NAME_FRAME, img)
+            print(results) # For Debug Purpose
             #break for frame closure with typing 'q'
             if cv2.waitKey(10) & 0xFF == ord(constants.KILL_PROCESS_KEY_INPUT):
                 break

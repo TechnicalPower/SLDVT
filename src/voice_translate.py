@@ -1,9 +1,7 @@
-import os
-import time
 import constants
 from gtts import gTTS
-from tempfile import NamedTemporaryFile
-import pyglet
+from playsound import playsound
+from tempfile import TemporaryFile
 
 
 
@@ -14,26 +12,19 @@ def read_dir(dir):
 
 #tranlating string sentence into words array
 def string_to_word(str):
-    print(str)  
+    print(str)
     return str.split()
+
 
 # Important!! translating the string words into voice with speaker output
 def voice_output(out):
     #TODO: Implementation with GTTS 
-
-    pyglet.options['search_local_libs'] = True
-    f = open("buffer.mp3", "w")
     for word in out:
         tts = gTTS(word)
-        tts.save(f.name)
-        media = pyglet.media.load(f.name)
-        media.play()
-        time.sleep(0.6)    
-
-    
+        tts.save("buffer.mp3")
+        playsound("buffer.mp3")
 
 def main():
-    os.chmod("./", 444)
     # Debug purpose - starting the python file with satisfied dependencies
     print("""Run the voice translator..
           Checkpoint : 1""")
