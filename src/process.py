@@ -1,11 +1,10 @@
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
+
 import constants
 import numpy as np
 import os
 import LSTM_model
-
-
 
 
 def process():
@@ -25,14 +24,16 @@ def process():
     res = [.7, 0.2, 0.1]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
 
-    model = LSTM_model.learning_model(X_train, y_train, res)
+    model = LSTM_model.learning_model(X_train, y_train)
 
     res = model.predict(X_test)
-    model.save('action.h5')
-    #model.load_weights('action.h5')
+    model.save('action.keras')
 
+def load():
+    model = LSTM_model.model_build()
+    model.load_weights('action.keras')
+    return model
 
-    return res
 
 
 
