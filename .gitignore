@@ -9,6 +9,7 @@ __pycache__/
 
 # directory for dataset as too large data
 src/dataset/*
+src/dataset_custom/*
 src/Logs/*
 
 # Distribution / packaging

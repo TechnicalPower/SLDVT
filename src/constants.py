@@ -9,6 +9,7 @@ ACTION_LIST = [
 NP_SEQUENCE = 30 ## Number of folders on the action
 NP_LENGTH = 30 ## Number of frames on single sequence (folder)
 DATA_PATH_STRING = 'dataset' ## DATA PATH
+DATA_PATH_CUSTOM = 'dataset_custom'
 
 # used by mcapture.py --
 MIN_DETECTION_CONFIDENCE = 0.5 ## confidence rate - hyperparameter for media pipe for detection inital action
@@ -21,6 +22,7 @@ NAME_FRAME = 'Motion Capture' ## name of frame
 KILL_PROCESS_KEY_INPUT = 'q' ## kill process key !!
 
 # FLOW VARIABLES --
+FLOW_CUSTOM = "C"
 FLOW_LEARNING = "L"
 
 
