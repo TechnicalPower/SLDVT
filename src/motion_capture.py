@@ -9,6 +9,8 @@ import mediapipe
 import constants
 import process
 import voice_translate
+import action_parser
+import data_generate
 #holistic model for image detection taking landmarks
 mp_holistic = mediapipe.solutions.holistic
 
@@ -28,13 +30,35 @@ mp_drawing = mediapipe.solutions.drawing_utils
         
 #     return output_frame
 
+import cv2
+
 def mediapipe_detection(img, model):
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    img.flags.writeable = False
-    results = model.process(img)
-    img.flags.writeable = True
-    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-    return img, results
+    """
+    Perform object detection using MediaPipe framework.
+
+    Parameters:
+        img: numpy.ndarray
+            Input image in BGR color space.
+        model: MediaPipe model
+            Pre-trained MediaPipe model for object detection.
+
+    Returns:
+        tuple
+            A tuple containing the processed image in BGR color space and the detection results.
+    """
+    if img is None or model is None:
+        raise ValueError("Input image or model is None.")
+
+    # Convert image color space to RGB
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    # Process image with model
+    results = model.process(img_rgb)
+
+    # Convert image color space back to BGR
+    img_processed = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+
+    return img_processed, results
 
 
 """
@@ -115,26 +139,102 @@ def main_for_learning():
 
         cap.release()
         cv2.destroyAllWindows()
-def main_beta():
-        # VideoCapture with input 0 will call the camera to get motion captured
+
+def custom_flow_learn():
+
+    word = input("Currently in custom flow... Could you tell me which word you want to teach for me?")
+
+    data_generate.custom_flow_data_generate(word)
+
+    
+    # VideoCapture with input 0 will call the camera to get motion captured
     # Reference: https://docs.opencv.org/3.4/d8/dfe/classcv_1_1VideoCapture.html#ae82ac8efcff2c5c96be47c060754a518
     cap = cv2.VideoCapture(0)
-
     # Returns true if video capturing has been initialized already
-    while cap.isOpened():
-        # Grabs, decodes and returns the next video frame
-        # ret :
-        # frame : 
-        ret, frame = cap.read()
-        cv2.imshow('Motion Capture', frame)
+    with mp_holistic.Holistic(min_detection_confidence=constants.MIN_DETECTION_CONFIDENCE,
+                               min_tracking_confidence=constants.MIN_TRACKING_CONFIDENCE) as holistic:
+        while True:
+            if cap.isOpened():
+                break
+            # Grabs, decodes and returns the next video frame
+        for sequence in range(constants.NP_SEQUENCE):
+                
+            for frame_num in range(constants.NP_LENGTH):
+                            
+                    # ret :
+                    # frame : 
+                ret, frame = cap.read()
+                img, results = mediapipe_detection(frame,holistic)
 
-        #break for frame closure
-        if cv2.waitKey(10) & 0xFF == ord('q'):
-            break
-    
+                draw_landmarks(img, results)
+                if frame_num == 0:
+                    cv2.putText(img, 'STARTING COLLECTION', (120, 200),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255, 0), 4, cv2.LINE_AA)
+                    cv2.putText(img, 'Collecting frames for {} Video Number {}'.format(word, sequence), (15, 12),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0,255), 1, cv2.LINE_AA)
+                    cv2.imshow(constants.NAME_FRAME, img)
+                    cv2.waitKey(2000)
+                else:
+                    cv2.putText(img, 'Collecting frames for {} Video Number {}'.format(word, sequence), (15, 12),
+                                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0, 255), 1, cv2.LINE_AA)
+                    cv2.imshow(constants.NAME_FRAME, img)
+                    
+                keypoints = extract_key_values(results)
+                npy_path = os.path.join(os.path.join(constants.DATA_PATH_CUSTOM), word, str(sequence), str(frame_num))
+                np.save(npy_path, keypoints)
+
+                if cv2.waitKey(10) & 0xFF == ord(constants.KILL_PROCESS_KEY_INPUT):
+                    break
+
+        print("PROCESS SHOULD BE PERFORMED TO MAKE DATASET WEIGHT ON THE MODEL!!: Required prompt : python3 process.py process_custom_flow")
+        action_parser.append_action("actions.txt", word)
+
+        cap.release()
+        cv2.destroyAllWindows()
+
+def custom_flow_main():
+    sequence = []
+    predictions = []
+    latest_predicted_word = None  # Initialize variable to store the latest predicted word
+    threshold = 0.95
+
+    action_list = np.array(action_parser.parse_actions("actions.txt"))
+
+    cap = cv2.VideoCapture(0)
+    model = process.load_custom_flow()
+
+    with mp_holistic.Holistic(min_detection_confidence=constants.MIN_DETECTION_CONFIDENCE,
+                               min_tracking_confidence=constants.MIN_TRACKING_CONFIDENCE) as holistic:
+        while cap.isOpened():
+            ret, frame = cap.read()
+            if not ret:
+                break
+            
+            img, results = mediapipe_detection(frame, holistic)
+
+            keypoints = extract_key_values(results)
+
+            sequence.append(keypoints)
+            sequence = sequence[-30:]
+            print(len(sequence))
+            print(len(predictions))
+
+            if len(sequence) == 30:
+                res = model.predict(np.expand_dims(sequence, axis=0))[0]
+                predictions.append(np.argmax(res))
+                print(action_list[np.argmax(res)])
+                if len(predictions) >= 10 and np.unique(predictions[-10:])[0] == np.argmax(res) and res[np.argmax(res)] > threshold and latest_predicted_word != action_list[np.argmax(res)]:
+                    latest_predicted_word = action_list[np.argmax(res)]
+                    voice_translate.voice_output(latest_predicted_word + "")
+                    print("THRESHOLD" + latest_predicted_word)
+                    # You may perform further operations with the latest_predicted_word here
+            cv2.imshow(constants.NAME_FRAME, img)
+
+            if cv2.waitKey(10) & 0xFF == ord(constants.KILL_PROCESS_KEY_INPUT):
+                break
+
     cap.release()
-    cv2.destroyAllWindows()
-
+    cv2.destroyAllWindows()  
 
 def main():
     sequence = []
@@ -179,11 +279,20 @@ def main():
     cv2.destroyAllWindows()  
 
 if __name__ == "__main__":
+    var_custom = input("PLEASE SPECIFY FLOW -> CUSTOM FLOW: C || BASIC FLOW : Anything")
     var_workflow = input("Hello! Welcome to Sign Language Detection Service. You are currently in admin-only available service. If you want to make new dataset, press 'L'. Otherwise, press any key")
-    if(var_workflow == constants.FLOW_LEARNING):
-        print("Learning mode activated")
-        main_for_learning()
+    if(var_custom == constants.FLOW_CUSTOM):
+        if(var_workflow == constants.FLOW_LEARNING):
+            print("Learning mode activated")
+            custom_flow_learn()
+        else:
+            print("User level mode activated")
+            custom_flow_main()
     else:
-        print("User level mode activated")
-        main()
+        if(var_workflow == constants.FLOW_LEARNING):
+            print("Learning mode activated")
+            main_for_learning()
+        else:
+            print("User level mode activated")
+            main()    
 
