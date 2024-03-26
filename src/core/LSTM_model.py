@@ -4,8 +4,8 @@ import numpy as np
 from keras.models import Sequential
 from keras.layers import LSTM, Dense 
 from keras.callbacks import TensorBoard
-import action_parser
-import constants
+import utils.action_parser as action_parser
+import constants.configuration
 
 def model_build():
     model = Sequential()
@@ -15,7 +15,7 @@ def model_build():
     model.add(LSTM(64, return_sequences=False, activation='relu'))
     model.add(Dense(64, activation='relu'))
     model.add(Dense(64, activation='relu'))
-    model.add(Dense(len(constants.ACTION_LIST), activation='softmax'))
+    model.add(Dense(len(constants.configuration.ACTION_LIST), activation='softmax'))
     return model
 
 
