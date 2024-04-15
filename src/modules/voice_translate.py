@@ -1,6 +1,6 @@
 import os
 import time
-import constants
+import constants.configuration as configuration
 from gtts import gTTS
 from tempfile import NamedTemporaryFile
 import pyglet
@@ -37,7 +37,7 @@ def main():
           Checkpoint : 1""")
     
     # Call read directiory and get file input into string
-    input_text = read_dir(constants.INPUT_TEST_DIRECTORY)
+    input_text = read_dir(configuration.INPUT_TEST_DIRECTORY)
 
     # Divide the string words into array elements with each element string
     str_out = string_to_word(input_text)

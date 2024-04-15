@@ -1,22 +1,22 @@
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 
-import constants
+import constants.configuration 
 import numpy as np
 import os
-import LSTM_model
-import action_parser
+import core.LSTM_model as LSTM_model
+import utils.action_parser as action_parser
 import sys
 
 def process():
-    label_map = {label: num for num, label in enumerate(np.array(constants.ACTION_LIST))}
+    label_map = {label: num for num, label in enumerate(np.array(configuration.ACTION_LIST))}
 
     sequences, labels = [], []
-    for action in np.array(constants.ACTION_LIST):
-        for sequence in range(constants.NP_SEQUENCE):
+    for action in np.array(configuration.ACTION_LIST):
+        for sequence in range(configuration.NP_SEQUENCE):
             window = []
-            for frame_num in range(constants.NP_LENGTH):
-                res = np.load(os.path.join(constants.DATA_PATH_STRING, action, str(sequence), "{}.npy".format(frame_num)))
+            for frame_num in range(configuration.NP_LENGTH):
+                res = np.load(os.path.join(configuration.DATA_PATH_STRING, action, str(sequence), "{}.npy".format(frame_num)))
                 window.append(res)
             sequences.append(window)
             labels.append(label_map[action])
@@ -28,7 +28,7 @@ def process():
     model = LSTM_model.learning_model(X_train, y_train)
 
     res = model.predict(X_test)
-    model.save('action.keras')
+    model.save('../model/action.keras')
 
 def process_custom_flow():
     action_list = np.array(action_parser.parse_actions("actions.txt"))
@@ -36,10 +36,10 @@ def process_custom_flow():
 
     sequences, labels = [], []
     for action in action_list:
-        for sequence in range(constants.NP_SEQUENCE):
+        for sequence in range(configuration.NP_SEQUENCE):
             window = []
-            for frame_num in range(constants.NP_LENGTH):
-                res = np.load(os.path.join(constants.DATA_PATH_CUSTOM, action, str(sequence), "{}.npy".format(frame_num)))
+            for frame_num in range(configuration.NP_LENGTH):
+                res = np.load(os.path.join(configuration.DATA_PATH_CUSTOM, action, str(sequence), "{}.npy".format(frame_num)))
                 window.append(res)
             sequences.append(window)
             labels.append(label_map[action])
@@ -67,7 +67,7 @@ def process_custom_flow():
 
 def load():
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    model_path = os.path.join(base_path, 'action.keras')
+    model_path = os.path.join(base_path, '../model/action.keras')
 
     model = LSTM_model.model_build()
     model.load_weights(model_path)

@@ -1,25 +1,25 @@
 import os
-import constants
+import SLDVT.src.constants.configuration as configuration
 import numpy as np
 
 # !! DATA path to store the folder to detect
-DATA_PATH = os.path.join(constants.DATA_PATH_STRING)
-DATA_PATH_CUSTOM = os.path.join(constants.DATA_PATH_CUSTOM)
+DATA_PATH = os.path.join(configuration.DATA_PATH_STRING)
+DATA_PATH_CUSTOM = os.path.join(configuration.DATA_PATH_CUSTOM)
 
 # For testing purpose with fixed number of dataset
 ## Following words:
 ### 1. Hello
 ### 2. Thanks
 ### 3. ILoveYou
-actions = np.array(constants.ACTION_LIST)
+actions = np.array(configuration.ACTION_LIST)
 
 
 ### REFRENCE FROM constants.py
-np_sequence = constants.NP_SEQUENCE
+np_sequence = configuration.NP_SEQUENCE
 
 
 
-np_constant = constants.NP_LENGTH
+np_constant = configuration.NP_LENGTH
 
 def main():
 
