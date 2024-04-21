@@ -2,13 +2,61 @@
 
 # used by data_generate.py --
 ACTION_LIST = [
-    "Hello",
-    "Thanks",
-    "Iloveyou"
-] ## Following array store the list of action to detect for only testing purpose (Acutal use flow will not use this constant!)
+    "again",
+    "also",
+    "ask",
+    "bad",
+    "boy",
+    "but",
+    "can",
+    "come",
+    "deaf",
+    "drink",
+    "drive",
+    "eat",
+    "email",
+    "execute",
+    "family",
+    "feeling",
+    "few",
+    "find",
+    "fine",
+    "fingerspell",
+    "finish",
+    "for",
+    "forget",
+    "friend",
+    "get",
+    "girl",
+    "give",
+    "go",
+    "good",
+    "have",
+    "help",
+    "home",
+    "how",
+    "I",
+    "internet",
+    "later",
+    "like",
+    "little",
+    "man",
+    "many",
+    "meet",
+    "more",
+    "my",
+    "name",
+    "need",
+    "new",
+    "now",
+    "please",
+    "remember",
+    "sign word",
+]
+## Following array store the list of action to detect for only testing purpose (Acutal use flow will not use this constant!)
 NP_SEQUENCE = 30 ## Number of folders on the action
 NP_LENGTH = 30 ## Number of frames on single sequence (folder)
-DATA_PATH_STRING = 'dataset' ## DATA PATH
+DATA_PATH_STRING = '../dataset/Dataset-Mhia' ## DATA PATH
 DATA_PATH_CUSTOM = 'dataset_custom'
 
 # used by mcapture.py --

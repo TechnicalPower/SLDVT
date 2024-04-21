@@ -1,20 +1,27 @@
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
 
-import constants.configuration 
-import numpy as np
+# Import necessary modules and files
 import os
+import sys
+sys.path.append("..")
+
 import core.LSTM_model as LSTM_model
 import utils.action_parser as action_parser
-import sys
-
+import constants.configuration as configuration
+import numpy as np
+# Function to process data for the default flow
 def process():
+    # Create a label map to map action labels to numerical values
     label_map = {label: num for num, label in enumerate(np.array(configuration.ACTION_LIST))}
 
     sequences, labels = [], []
+    # Iterate over each action in the ACTION_LIST
     for action in np.array(configuration.ACTION_LIST):
+        # Generate sequences for each action
         for sequence in range(configuration.NP_SEQUENCE):
             window = []
+            # Load frames for each sequence
             for frame_num in range(configuration.NP_LENGTH):
                 res = np.load(os.path.join(configuration.DATA_PATH_STRING, action, str(sequence), "{}.npy".format(frame_num)))
                 window.append(res)
@@ -25,19 +32,28 @@ def process():
     res = [.7, 0.2, 0.1]
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
 
+    # Train the LSTM model
     model = LSTM_model.learning_model(X_train, y_train)
 
+    # Get predictions on test data
     res = model.predict(X_test)
+    # Save the trained model
     model.save('../model/action.keras')
 
+# Function to process data for custom flow
 def process_custom_flow():
+    # Parse action list from a file
     action_list = np.array(action_parser.parse_actions("actions.txt"))
+    # Create a label map for the custom action list
     label_map = {label: num for num, label in enumerate(action_list)}
 
     sequences, labels = [], []
+    # Iterate over each action in the custom action list
     for action in action_list:
+        # Generate sequences for each action
         for sequence in range(configuration.NP_SEQUENCE):
             window = []
+            # Load frames for each sequence
             for frame_num in range(configuration.NP_LENGTH):
                 res = np.load(os.path.join(configuration.DATA_PATH_CUSTOM, action, str(sequence), "{}.npy".format(frame_num)))
                 window.append(res)
@@ -48,6 +64,7 @@ def process_custom_flow():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
 
+    # Train the LSTM model with custom data
     model = LSTM_model.learning_model_custom(X_train, y_train)
 
     # Get predictions on test data
@@ -65,21 +82,26 @@ def process_custom_flow():
     # Save the trained model
     model.save('action_custom.keras')
 
+# Function to load the default model
 def load():
+    # Get the path to the default model
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     model_path = os.path.join(base_path, '../model/action.keras')
 
+    # Build the model architecture
     model = LSTM_model.model_build()
+    # Load weights of the pre-trained model
     model.load_weights(model_path)
     return model
+
+# Function to load the custom model
 def load_custom_flow():
+    # Build the model architecture for custom flow
     model = LSTM_model.model_build_custom()
+    # Load weights of the custom-trained model
     model.load_weights('action_custom.keras')
     return model
 
-
-
-
-# Only for testing purpose
+# Main function to execute for testing purpose
 if __name__ == "__main__":
-    process_custom_flow()
+    process()
