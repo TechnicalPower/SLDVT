@@ -30,7 +30,7 @@ def process():
     y = to_categorical(labels, num_classes=len(configuration.ACTION_LIST)).astype(int)
     
     # Split data into train and test sets
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
 
     # Train the LSTM model
     model = LSTM_model.learning_model(X_train, y_train)
@@ -42,7 +42,9 @@ def process():
     predictions = model.predict(X_test)
 
     # Save the trained model
-    model.save('../model/action.keras')
+    model.save_weight('../model/action.keras')
+
+    model.save('my_model')
 
     return loss, accuracy, predictions
 # Function to process data for custom flow

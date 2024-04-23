@@ -140,6 +140,7 @@ class MainWindow(QWidget):
             if self.model is not None:
                 res = self.model.predict(np.expand_dims(self.sequence, axis=0))[0]
                 self.predictions.append(np.argmax(res))
+                print(res[np.argmax(res)])
                 if (len(self.predictions) >= 10 and 
                     np.unique(self.predictions[-10:])[0] == np.argmax(res) and 
                     res[np.argmax(res)] > self.threshold and 
