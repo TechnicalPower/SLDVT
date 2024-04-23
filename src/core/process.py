@@ -10,14 +10,13 @@ import core.LSTM_model as LSTM_model
 import utils.action_parser as action_parser
 import constants.configuration as configuration
 import numpy as np
-# Function to process data for the default flow
 def process():
     # Create a label map to map action labels to numerical values
-    label_map = {label: num for num, label in enumerate(np.array(configuration.ACTION_LIST))}
+    label_map = {label: num for num, label in enumerate(configuration.ACTION_LIST)}
 
     sequences, labels = [], []
     # Iterate over each action in the ACTION_LIST
-    for action in np.array(configuration.ACTION_LIST):
+    for action in configuration.ACTION_LIST:
         # Generate sequences for each action
         for sequence in range(configuration.NP_SEQUENCE):
             window = []
@@ -28,18 +27,24 @@ def process():
             sequences.append(window)
             labels.append(label_map[action])
     X = np.array(sequences)
-    y = to_categorical(labels).astype(int)
-    res = [.7, 0.2, 0.1]
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
+    y = to_categorical(labels, num_classes=len(configuration.ACTION_LIST)).astype(int)
+    
+    # Split data into train and test sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05, random_state=42)
 
     # Train the LSTM model
     model = LSTM_model.learning_model(X_train, y_train)
 
+    # Evaluate the model
+    loss, accuracy = model.evaluate(X_test, y_test)
+
     # Get predictions on test data
-    res = model.predict(X_test)
+    predictions = model.predict(X_test)
+
     # Save the trained model
     model.save('../model/action.keras')
 
+    return loss, accuracy, predictions
 # Function to process data for custom flow
 def process_custom_flow():
     # Parse action list from a file

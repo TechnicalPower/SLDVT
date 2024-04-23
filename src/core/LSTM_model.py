@@ -10,13 +10,18 @@ import constants.configuration
 def model_build():
     model = Sequential()
 
-    model.add(LSTM(64, return_sequences=True, activation='relu', input_shape=(30,1662)))
-    model.add(LSTM(128, return_sequences=True, activation='relu'))
-    model.add(LSTM(64, return_sequences=False, activation='relu'))
-    model.add(Dense(64, activation='relu'))
-    model.add(Dense(64, activation='relu'))
-    model.add(Dense(len(constants.configuration.ACTION_LIST), activation='softmax'))
+    # LSTM layers
+    model.add(LSTM(512, return_sequences=True, activation='tanh', input_shape=(30, 1662)))
+    model.add(LSTM(512, return_sequences=True, activation='tanh'))
+    model.add(LSTM(512, return_sequences=False, activation='tanh'))
+
+    # Fully connected layers
+    model.add(Dense(512, activation='relu'))
+    model.add(Dense(512, activation='relu'))
+    model.add(Dense(len(constants.configuration.ACTION_LIST), activation='softmax'))  # Output layer with softmax activation for classification
+
     return model
+
 
 
 def model_build_custom():
@@ -54,8 +59,7 @@ def learning_model_custom(X_train, y_train):
     model = model_build_custom()
 
 
-    model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['categorical_accuracy'])
-
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     model.fit(X_train, y_train, epochs=200, callbacks=[tb_callback])
     
     return model
