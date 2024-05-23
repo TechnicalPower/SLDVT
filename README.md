@@ -1,4 +1,4 @@
-<h1 align="center">Project Midus</h1>
+<h1 align="center">Project Mhia</h1>
 <h3 align="center">Sign Language Detection Voice Translator</h3>
 <details>
   <summary>Table of Contents</summary>
