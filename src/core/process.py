@@ -1,4 +1,6 @@
+# Splitting the dataset into training and test sets
 from sklearn.model_selection import train_test_split
+#Converting integer labels into one-hot encoding
 from tensorflow.keras.utils import to_categorical
 
 # Import necessary modules and files
@@ -11,25 +13,35 @@ import utils.action_parser as action_parser
 import constants.configuration as configuration
 import numpy as np
 def process():
-    # Create a label map to map action labels to numerical values
+    # Create a label map to map action labels to numerical values(index of action in ACTION_LIST)
     label_map = {label: num for num, label in enumerate(configuration.ACTION_LIST)}
-
+    
+    # sequece : list that store sequence of each frame for the each action
+    # labels: list that store sequece of trained action labels 
     sequences, labels = [], []
     # Iterate over each action in the ACTION_LIST
     for action in configuration.ACTION_LIST:
-        # Generate sequences for each action
+        # Generate sequences for each action 
         for sequence in range(configuration.NP_SEQUENCE):
+            # window : list that store frames composing each sequence
             window = []
             # Load frames for each sequence
             for frame_num in range(configuration.NP_LENGTH):
+                # Load each frame that stores after the training
                 res = np.load(os.path.join(configuration.DATA_PATH_STRING, action, str(sequence), "{}.npy".format(frame_num)))
+                # append to the window list (it will store all the frames for each action)
                 window.append(res)
+            
+            # store list of all the frames for each sequence
             sequences.append(window)
+            # store the order of trained action labels
             labels.append(label_map[action])
+    #convert sequeces to numpy array
     X = np.array(sequences)
+    # convert labels to the one-hot encoding 
     y = to_categorical(labels, num_classes=len(configuration.ACTION_LIST)).astype(int)
     
-    # Split data into train and test sets
+    # Split data into train and test sets, 0.05% of data will be used for testing
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
 
     # Train the LSTM model
@@ -41,34 +53,48 @@ def process():
     # Get predictions on test data
     predictions = model.predict(X_test)
 
-    # Save the trained model
+    # Save the trained model (trained parameter)
     model.save_weight('../model/action.keras')
 
+    # save the model 
     model.save('my_model')
 
     return loss, accuracy, predictions
+
 # Function to process data for custom flow
 def process_custom_flow():
     # Parse action list from a file
     action_list = np.array(action_parser.parse_actions("actions.txt"))
-    # Create a label map for the custom action list
+    # Create a label map to map action labels to numerical values(index of action in action_list)
     label_map = {label: num for num, label in enumerate(action_list)}
 
+    # sequece : list that store sequence of each frame for the each action
+    # labels: list that store sequece of trained action labels
     sequences, labels = [], []
+    
     # Iterate over each action in the custom action list
     for action in action_list:
         # Generate sequences for each action
         for sequence in range(configuration.NP_SEQUENCE):
+            # window : list that store frames composing each sequence
             window = []
             # Load frames for each sequence
             for frame_num in range(configuration.NP_LENGTH):
+                # Load each frame that stores after the training
                 res = np.load(os.path.join(configuration.DATA_PATH_CUSTOM, action, str(sequence), "{}.npy".format(frame_num)))
+                # append to the window list (it will store all the frames for each action)
                 window.append(res)
+                
+            # store list of all the frames for each sequence
             sequences.append(window)
+            # store the order of trained action labels
             labels.append(label_map[action])
+    #convert sequeces to numpy array
     X = np.array(sequences)
+    # convert labels to the one-hot encoding 
     y = to_categorical(labels).astype(int)
 
+    # Split data into train and test sets, 0.05% of data will be used for testing
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.05)
 
     # Train the LSTM model with custom data
