@@ -103,7 +103,7 @@ class MainWindow(QWidget):
         self.sequence = []
         self.predictions = []
         self.latest_predicted_word = None
-        self.threshold = 0.5
+        self.threshold = 0.95
         self.model = core.process.load()
         self.word_seq = []
 
