@@ -54,7 +54,7 @@ def process():
     predictions = model.predict(X_test)
 
     # Save the trained model (trained parameter)
-    model.save_weight('../model/action.keras')
+    model.save_weights('../model/action.keras')
 
     # save the model 
     model.save('my_model')
