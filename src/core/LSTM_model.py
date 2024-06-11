@@ -6,14 +6,14 @@ from keras.layers import LSTM, Dense, Dropout, Input
 from keras.callbacks import TensorBoard
 from keras.optimizers import Adam
 import utils.action_parser as action_parser
-import constants.configuration
+import constants.configuration 
 
 # model_1 => Original
 def model_build():
     model = Sequential()
 
     # LSTM layers
-    model.add(LSTM(64, return_sequences=True, activation='relu', input_shape=(30,1662)))
+    model.add(LSTM(64, return_sequences=True, activation='relu', input_shape=(30,constants.configuration.TOTAL_LANDMARK)))
     model.add(LSTM(128, return_sequences=True, activation='relu'))
     model.add(LSTM(64, return_sequences=False, activation='relu'))
     model.add(Dense(64, activation='relu'))
@@ -92,7 +92,7 @@ def model_build_custom():
     action_list = action_parser.parse_actions("actions.txt")
     model = Sequential()
 
-    model.add(LSTM(64, return_sequences=True, activation='relu', input_shape=(30,1662)))
+    model.add(LSTM(64, return_sequences=True, activation='relu', input_shape=(30,constants.configuration.TOTAL_LANDMARK)))
     model.add(LSTM(128, return_sequences=True, activation='relu'))
     model.add(LSTM(64, return_sequences=False, activation='relu'))
     model.add(Dense(64, activation='relu'))

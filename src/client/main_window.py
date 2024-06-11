@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QSplashScreen
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QSplashScreen, QSizePolicy 
 from PyQt5.QtGui import QColor, QImage, QPixmap, QFont, QIcon
 import sys
 import cv2
@@ -49,24 +49,29 @@ class MainWindow(QWidget):
         # Add left layout to the main layout
         main_layout.addLayout(left_layout)
 
-        # Create text section widget
         self.text_section_widget = QLabel("", self)
         self.text_section_widget.setStyleSheet("color: white; border: 2px solid white;")
-        self.text_section_widget.setAlignment(Qt.AlignCenter)
+        self.text_section_widget.setAlignment(Qt.AlignTop | Qt.AlignLeft)  # Align text to top-left
+        self.text_section_widget.setWordWrap(True)  # Enable word wrapping
+        self.text_section_widget.setFixedWidth(400)  # Set a fixed width for the text section
+        self.text_section_widget.setFixedHeight(700)
 
         # Create quit button
         quit_button = QPushButton("Quit", self)
         quit_button.setStyleSheet("QPushButton { background-color: %s; color: %s; border: 2px solid %s; border-radius: 5px; }"
-                                  "QPushButton:hover { background-color: %s; }"
-                                  "QPushButton:pressed { background-color: %s; border: 2px solid %s; }" % (
-                                      button_color.name(), text_color.name(), button_border_color.name(),
-                                      button_hover_color.name(), button_hover_color.name(), text_color.name()))
+                                "QPushButton:hover { background-color: %s; }"
+                                "QPushButton:pressed { background-color: %s; border: 2px solid %s; }" % (
+                                    button_color.name(), text_color.name(), button_border_color.name(),
+                                    button_hover_color.name(), button_hover_color.name(), text_color.name()))
+        quit_button.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)  # Set size policy for the button
+        quit_button.setFixedWidth(400)  # Set a fixed width for the button
+        quit_button.setFixedHeight(50)
         quit_button.clicked.connect(self.close)
 
         # Create a layout for the right side (text section and quit button)
         right_layout = QVBoxLayout()
         right_layout.addWidget(self.text_section_widget)
-        right_layout.addWidget(quit_button)
+        right_layout.addWidget(quit_button, alignment=Qt.AlignTop)  # Align button to top
 
         # Add the right layout to the main layout
         main_layout.addLayout(right_layout)

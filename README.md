@@ -166,8 +166,15 @@ Using GitHub Actions, we can automate our CI/CD pipeline, ensuring that code cha
 
 4. Deployment: Following the push to the registry, the new Docker image is deployed to the production environment. 
 
-  
+## Test directions:
 
+### Collect your dataset first!
+
+1. Dataset should be collected by following process
+  1. Run python file exp_mode.py
+  2. enter the word for following prompt:
+    ```Currently in experimental mode... Could you tell me which word you want to teach for me?```
+  3. After the enter the word, following the direction on the screen
 
 ## Contact
 <ul>
