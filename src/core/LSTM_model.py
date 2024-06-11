@@ -36,7 +36,7 @@ def model_build_2():
     return model
 
 
-# model_3 => DukSung Women's University + tanh activation function for input layer
+# # model_3 => DukSung Women's University + tanh activation function for input layer
 def model_build_3():
     model = Sequential([
         Input(shape=(30, 1662), name='input_layer'),  # 입력층 정의, M은 프레임당 특성 수
@@ -50,7 +50,7 @@ def model_build_3():
     return model
 
 
-# model_4 => Original + tanh activation function for input layer
+# # model_4 => Original + tanh activation function for input layer
 def model_build_4():
     model = Sequential()
 
@@ -63,6 +63,25 @@ def model_build_4():
     model.add(Dense(len(constants.configuration.ACTION_LIST), activation='softmax')) 
 
     return model
+
+# #model_5 => Original + tanh activation function for all the LSTM layers
+def model_build_5():
+    model = Sequential()
+
+    # LSTM layers with tanh activation
+    model.add(LSTM(64, return_sequences=True, activation='tanh', input_shape=(30,1662)))
+    model.add(LSTM(128, return_sequences=True, activation='tanh'))
+    model.add(LSTM(64, return_sequences=False, activation='tanh'))
+    model.add(Dense(64, activation='relu'))
+    model.add(Dense(32, activation='relu'))
+    model.add(Dense(len(constants.configuration.ACTION_LIST), activation='softmax'))
+
+    return model
+
+
+
+
+
     
     
 
