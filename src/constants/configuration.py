@@ -60,7 +60,7 @@ ACTION_LIST = [
 NP_SEQUENCE = 30 ## Number of folders on the action
 NP_LENGTH = 30 ## Number of frames on single sequence (folder)
 DATA_PATH_STRING = '../dataset/Dataset-Mhia' ## DATA PATH
-DATA_PATH_CUSTOM = 'dataset_custom'
+DATA_PATH_CUSTOM = 'dataset'
 
 # used by mcapture.py --
 MIN_DETECTION_CONFIDENCE = 0.5 ## confidence rate - hyperparameter for media pipe for detection inital action
