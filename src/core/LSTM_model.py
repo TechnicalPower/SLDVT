@@ -69,7 +69,7 @@ def model_build():
     model = Sequential()
 
     # LSTM layers with tanh activation
-    model.add(LSTM(64, return_sequences=True, activation='tanh', input_shape=(30,1662)))
+    model.add(LSTM(64, return_sequences=True, activation='tanh', input_shape=(30,constants.configuration.TOTAL_LANDMARK)))
     model.add(LSTM(128, return_sequences=True, activation='tanh'))
     model.add(LSTM(64, return_sequences=False, activation='tanh'))
     model.add(Dense(64, activation='relu'))
