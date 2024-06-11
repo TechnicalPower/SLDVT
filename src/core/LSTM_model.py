@@ -73,7 +73,9 @@ def model_build_5():
     model.add(LSTM(128, return_sequences=True, activation='tanh'))
     model.add(LSTM(64, return_sequences=False, activation='tanh'))
     model.add(Dense(64, activation='relu'))
+    model.add(Dropout(0.3))
     model.add(Dense(32, activation='relu'))
+    model.add(Dropout(0.3))
     model.add(Dense(len(constants.configuration.ACTION_LIST), activation='softmax'))
 
     return model
