@@ -79,14 +79,6 @@ def model_build():
     return model
 
 
-
-
-
-    
-    
-
-
-
 def model_build_custom():
 
     action_list = action_parser.parse_actions("actions.txt")
