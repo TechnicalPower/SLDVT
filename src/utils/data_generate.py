@@ -1,5 +1,5 @@
 import os
-import SLDVT.src.constants.configuration as configuration
+import constants.configuration as configuration
 import numpy as np
 
 # !! DATA path to store the folder to detect
