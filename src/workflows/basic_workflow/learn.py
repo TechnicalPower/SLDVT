@@ -7,7 +7,7 @@ import modules.detection
 import modules.extract
 import modules.draw
 import core.process
-import utils.data_generate
+import utils.data_generate as data_generate
 
 class Learn:
     def __init__(self):
